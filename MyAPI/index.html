@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Product App</title>
+</head>
+<body>
+
+    <div>
+        <h2>All Products</h2>
+        <ul id="products" />
+    </div>
+    <div>
+        <h2>Search by ID</h2>
+        <input type="text" id="prodId" size="5" />
+        <input type="button" value="Search" onclick="find();" />
+        <ul id="findproducts" />
+    </div>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>
+        var uri = 'Stm32f10x';
+
+    $(document).ready(function () {
+      // Send an AJAX request
+        $.getJSON(uri + '/GetAllProducts/')
+          .done(function (data) {
+            // On success, 'data' contains a list of products.
+            $.each(data, function (key, item) {
+              // Add a list item for the product.
+              $('<li>', { text: formatItem(item) }).appendTo($('#products'));
+            });
+          });
+    });
+
+    function find() {
+        var id = $('#prodId').val();
+        $.getJSON(uri + '/GetProduct/' + id)
+            .done(function (data) {
+                $.each(data, function (key, item) {
+                    // Add a list item for the products.
+                    $('<li>', { text: formatItem(item) }).appendTo($('#findproducts'));
+                })
+            })
+            .fail(function (jqXHR, textStatus, err) {
+                $('#product').text('Error: ' + err);
+            });
+    }
+
+    function formatItem(item) {
+        var string = item.Name + ":";
+        $.each(item.Function, function (key, item) {
+            string = string + "   " + "Function" + key + ":" + item + "  ";
+        })
+        return string;
+    }
+
+    </script>
+</body>
+</html>
