@@ -84,7 +84,7 @@ namespace MyAPI.Controllers
                 MySqlCommand myCmd = new MySqlCommand("", myConnnect);
                 try
                 {
-                    myCmd.CommandText = "create table users(PassWord char(20),Name char(20) not null)";
+                    myCmd.CommandText = "create table users(PassWord char(40),Name char(20) not null)";
                     reasult = myCmd.ExecuteNonQuery();
                 }
                 catch
